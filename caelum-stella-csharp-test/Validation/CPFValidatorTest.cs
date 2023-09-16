@@ -1,23 +1,17 @@
 using Caelum.Stella.CSharp.Error;
 using Caelum.Stella.CSharp.Validation.Error;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Diagnostics;
+using Xunit;
+using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace Caelum.Stella.CSharp.Validation.Test
 {
-    [TestClass]
+    // [TestClass]
     public class CPFValidatorTest : BaseDocumentValidatorTest
     {
-        private CPFValidator cpfValidator;
+        private CPFValidator cpfValidator = new CPFValidator();
 
-        [TestInitialize()]
-        public void Initialize()
-        {
-            cpfValidator = new CPFValidator();
-        }
-
-        [TestMethod]
+        [Fact]
         public void DeveValidarCPFValido()
         {
             cpfValidator.AssertValid("11144477735");
@@ -26,19 +20,19 @@ namespace Caelum.Stella.CSharp.Validation.Test
             cpfValidator.AssertValid("47393545608");
         }
 
-        [TestMethod]
+        [Fact]
         public void DeveValidarCPFNulo()
         {
             cpfValidator.AssertValid(null);
         }
 
-        [TestMethod]
+        [Fact]
         public void DeveValidarCPFComZerosIniciais()
         {
             cpfValidator.AssertValid("01169538452");
         }
 
-        [TestMethod]
+        [Fact]
         public void NaoDeveValidarCPFComMenosDigitosQueOExigido()
         {
             try
@@ -52,7 +46,7 @@ namespace Caelum.Stella.CSharp.Validation.Test
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void NaoDeveValidarCPFComMaisDigitosQueOExigido()
         {
             try
@@ -66,7 +60,7 @@ namespace Caelum.Stella.CSharp.Validation.Test
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void NaoDeveValidarCPFComCaracterInvalido()
         {
             try
@@ -81,7 +75,7 @@ namespace Caelum.Stella.CSharp.Validation.Test
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void NaoDeveValidarDVComPrimeiroDVErrado()
         {
             // VALID CPF = 248.438.034-80
@@ -97,7 +91,7 @@ namespace Caelum.Stella.CSharp.Validation.Test
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void NaoDeveValidarDVComSegundoDVErrado()
         {
             // VALID CPF = 099.075.865-60
@@ -113,14 +107,14 @@ namespace Caelum.Stella.CSharp.Validation.Test
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void DeveValidarCPFValidoFormatado()
         {
             CPFValidator cpfValidator = new CPFValidator(true);
             cpfValidator.AssertValid("356.296.825-63");
         }
 
-        [TestMethod]
+        [Fact]
         public void NaoDeveValidarCPFValidoNaoFormatado()
         {
             CPFValidator validator = new CPFValidator(true);
@@ -137,7 +131,7 @@ namespace Caelum.Stella.CSharp.Validation.Test
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void NaoDeveValidarCPFComDigitosRepetidos()
         {
             string[] cpfs = new string[]

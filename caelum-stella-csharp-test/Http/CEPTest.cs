@@ -1,66 +1,67 @@
 ﻿using Caelum.Stella.CSharp.Http;
 using Caelum.Stella.CSharp.Http.Exceptions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Caelum.Stella.CSharp.Test.Http
 {
     //[TestClass]
     public class CEPTest
     {
-        [TestMethod]
+        [Fact]
         public void ZipCodeShouldBeNull()
         {
             CEP cep = new CEP();
-            Assert.IsTrue(cep.IsNull);
+            Assert.True(cep.IsNull);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidZipCodeFormat))]
+        [Fact]
         public void EmptyZipCodeShouldBeInvalid()
         {
-            CEP cep = "";
+            var cep = "";
+            Assert.Throws<InvalidZipCodeFormat>(() => new CEP(cep));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidZipCodeFormat))]
+        [Fact]
         public void ShorterZipCodeShouldBeInvalid()
         {
-            CEP cep = "123456";
+            var cep = "123456";
+            
+            Assert.Throws<InvalidZipCodeFormat>(() => new CEP(cep));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidZipCodeFormat))]
+        [Fact]
         public void LongerZipCodeShouldBeInvalid()
         {
-            CEP cep = "123456789";
+            var cep = "123456789";
+            Assert.Throws<InvalidZipCodeFormat>(() => new CEP(cep));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidZipCodeFormat))]
+        [Fact]
         public void AlphaNumericShouldBeInvalid()
         {
-            CEP cep = "12a4b6c8";
+            var cep = "12a4b6c8";
+            Assert.Throws<InvalidZipCodeFormat>(() => new CEP(cep));
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldBeComparable()
         {
             CEP cepA = "04101-300";
             var cepB = cepA;
 
-            Assert.AreEqual(cepA.CompareTo(cepB), 0);
+            Assert.Equal(0, cepA.CompareTo(cepB));
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldBeEqual()
         {
             CEP cepA = "04101-300";
             var cepB = cepA;
 
-            Assert.AreEqual(cepA, cepB);
+            Assert.Equal(cepA, cepB);
 
             CEP cepC = "04101-300";
-            Assert.AreEqual(cepA, cepC);
+            Assert.Equal(cepA, cepC);
         }
     }
 }
